@@ -34,7 +34,7 @@ func RunDockerUI() {
 		SetDynamicColors(true).
 		SetText("[::b]=[::-]:refresh  [::b]i[::-]:info  [::b]l[::-]:shell  [::b][RETURN][::-]:logs  [::b]r[::-]:restart  [::b]s[::-]:stop  [::b]:q[::-]:quit")
 
-	flex := tview.NewFlex().SetDirection(tview.FlexRow).
+	dashboardPage := tview.NewFlex().SetDirection(tview.FlexRow).
 		AddItem(tview.NewFlex().
 			AddItem(containerList, 0, 3, true).
 			AddItem(statsView, 0, 1, false),
@@ -42,21 +42,24 @@ func RunDockerUI() {
 		AddItem(logView, 0, 1, false).
 		AddItem(helpBar, 1, 0, false)
 
-	commandInput := tview.NewInputField().
-		SetLabel(":").
-		SetFieldWidth(0)
-
 	overlay := tview.NewBox().
 		SetBorder(true).
 		SetTitle("Command Input").
 		SetTitleAlign(tview.AlignLeft)
 
+	commandInput := tview.NewInputField().
+		SetLabel(":").
+		SetFieldWidth(2).
+		SetFieldBackgroundColor(tcell.ColorBlack)
+
 	overlayFlex := tview.NewFlex().
 		AddItem(nil, 0, 1, false).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 			AddItem(nil, 0, 1, false).
-			AddItem(commandInput, 1, 1, true).
-			AddItem(nil, 0, 1, false), 3, 1, true).
+			AddItem(tview.NewFlex().AddItem(commandInput, 0, 1, true), 1, 1, false).
+			AddItem(nil, 0, 1, false),
+			3, 1, true,
+		).
 		AddItem(nil, 0, 1, false)
 
 	overlay.SetDrawFunc(func(screen tcell.Screen, x, y, width, height int) (int, int, int, int) {
@@ -69,13 +72,41 @@ func RunDockerUI() {
 		AddItem(nil, 0, 1, false).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 			AddItem(nil, 0, 1, false).
-			AddItem(overlay, 3, 1, true).
+			AddItem(tview.NewFlex().AddItem(commandInput, 0, 0, false), 1, 1, false).
+			AddItem(overlay, 3, 1, false).
 			AddItem(nil, 0, 1, false), 40, 1, true).
 		AddItem(nil, 0, 1, false)
 
 	pages := tview.NewPages().
-		AddPage("main", flex, true, true).
+		AddPage("main", dashboardPage, true, true).
 		AddPage("input", overlayPage, true, false)
+
+	commandInput.SetDoneFunc(func(key tcell.Key) {
+		if key == tcell.KeyEnter {
+			command := commandInput.GetText()
+			if command == "q" {
+				app.Stop()
+			}
+
+			commandInput.SetText("")
+			pages.HidePage("input")
+			app.SetFocus(containerList)
+		}
+	})
+
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		if event.Key() == tcell.KeyEscape {
+			pages.HidePage("input")
+			app.SetFocus(containerList)
+			return nil
+		}
+		if event.Rune() == ':' {
+			pages.ShowPage("input")
+			app.SetFocus(commandInput)
+			return nil
+		}
+		return event
+	})
 
 	updateContainers := func() {
 		containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
@@ -143,33 +174,6 @@ func RunDockerUI() {
 		}
 	})
 
-	commandInput.SetDoneFunc(func(key tcell.Key) {
-		if key == tcell.KeyEnter {
-			command := commandInput.GetText()
-			if command == "q" {
-				app.Stop()
-			}
-			// Handle other commands here
-			commandInput.SetText("")
-			pages.HidePage("input")
-			app.SetFocus(containerList)
-		}
-	})
-
-	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		if event.Key() == tcell.KeyEscape {
-			pages.HidePage("input")
-			app.SetFocus(containerList)
-			return nil
-		}
-		if event.Rune() == ':' {
-			pages.ShowPage("input")
-			app.SetFocus(commandInput)
-			return nil
-		}
-		return event
-	})
-
 	app.SetFocus(containerList)
 	app.SetRoot(pages, true).EnableMouse(true)
 
@@ -187,7 +191,7 @@ func RunDockerUI() {
 	}
 }
 
-func calculateCPUPercentUnix(v types.CPUStats, pre types.CPUStats) float64 {
+func calculateCPUPercentUnix(v container.CPUStats, pre container.CPUStats) float64 {
 	cpuPercent := 0.0
 	cpuDelta := float64(v.CPUUsage.TotalUsage) - float64(pre.CPUUsage.TotalUsage)
 	systemDelta := float64(v.SystemUsage) - float64(pre.SystemUsage)
