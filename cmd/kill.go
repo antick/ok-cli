@@ -21,11 +21,20 @@ type processInfo struct {
 	Name    string // NAME column from lsof (e.g., *:3000 or 127.0.0.1:3000)
 }
 
-// HandleKill implements `ok kill --port <port>`
+// HandleKill implements `ok kill --port <port>` or `ok kill <port>`
 func HandleKill(cmd *cobra.Command, args []string) {
     port, _ := cmd.Flags().GetInt("port")
+    
+    // If no port flag provided, check if first argument is a port number
+    if port == 0 && len(args) > 0 {
+        if p, err := strconv.Atoi(args[0]); err == nil {
+            port = p
+        }
+    }
+    
+    // If still no port, show error and help
     if port == 0 {
-        color.Red("Error: No port provided. Use --port <port>.")
+        color.Red("Error: No port provided. Use --port <port> or ok kill <port>.")
         // Show full help so the user can see how to use this command
         _ = cmd.Root().Help()
         return

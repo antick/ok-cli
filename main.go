@@ -108,16 +108,15 @@ func createDockerCommand() *cobra.Command {
     return &cobra.Command{
         Use:   "docker",
         Short: "Manage Docker containers",
-        Long:  `Open an interactive UI to manage Docker containers.`,
         Run:   cmd.HandleDocker,
     }
 }
 
 func createKillCommand() *cobra.Command {
     cmd := &cobra.Command{
-        Use:   "kill --port <port>",
+        Use:   "kill [--port] <port>",
         Short: "Kill processes listening on a TCP port",
-        Long:  `Finds processes listening on the given TCP port, shows them, and prompts for confirmation before killing.`,
+        Long:  `Finds processes listening on the given TCP port, shows them, and prompts for confirmation before killing. You can specify the port either as a flag (--port 3000) or as a positional argument (3000).`,
         Run:   cmd.HandleKill,
     }
     cmd.Flags().IntP("port", "p", 0, "TCP port to free (required)")

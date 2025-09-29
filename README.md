@@ -43,7 +43,7 @@ ok build <input_file> [as/to] <output_file>
 ok move <source> [to] <destination>
 ok remove <file_or_directory> [--permanent|-p]
 ok docker
-ok kill --port <port>
+ok kill [--port] <port>
 ```
 
 ### Kill processes on a port (macOS)
@@ -54,6 +54,9 @@ Examples:
 ```bash
 # Find what is using port 3000 and kill after confirmation
 ok kill --port 3000
+
+# You can also specify the port as a positional argument
+ok kill 3000
 
 # If you omit the port, the help menu is shown
 ok kill
