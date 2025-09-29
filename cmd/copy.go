@@ -4,7 +4,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"ok/utils"
+	"github.com/antick/ok-cli/utils"
 )
 
 func HandleCopy(cmd *cobra.Command, args []string) {

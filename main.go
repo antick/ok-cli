@@ -6,8 +6,8 @@ import (
     "github.com/fatih/color"
     "github.com/spf13/cobra"
 
-    "ok/cmd"
-    "ok/config"
+    "github.com/antick/ok-cli/cmd"
+    "github.com/antick/ok-cli/config"
 )
 
 var cfg config.Config

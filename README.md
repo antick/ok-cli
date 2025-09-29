@@ -1,4 +1,4 @@
-# ok - CLI
+# ok - CLI (v0.1.0 - alpha)
 ok - a super CLI with super powers
 
 ## Installation
@@ -88,7 +88,3 @@ It creates ~/.ok/config.yaml file to set preferred defaults.
 ## License
 
 GNU General Public License v3.0
-
-## Version
-
-Current version: 0.1.0
