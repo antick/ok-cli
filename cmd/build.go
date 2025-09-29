@@ -7,7 +7,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/antick/ok-cli/utils"
+	"github.com/antick/ok/utils"
 )
 
 func HandleBuild(cmd *cobra.Command, args []string) {

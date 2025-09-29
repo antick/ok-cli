@@ -55,7 +55,7 @@ OK CLI is a versatile command-line tool that provides various utilities for file
 
 ### Option 1: Go Toolchain
 ```bash
-go install github.com/antick/ok-cli@main
+go install github.com/antick/ok@main
 
 Ensure your `$GOPATH/bin (usually $HOME/go/bin)` is on `PATH`:
 
@@ -65,8 +65,8 @@ echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 
 ### Option 2: Local Build
 ```bash
-git clone https://github.com/antick/ok-cli.git
-cd ok-cli
+git clone https://github.com/antick/ok.git
+cd ok
 go build -o ok .
 ./ok help
 ```

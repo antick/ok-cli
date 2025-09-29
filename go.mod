@@ -1,4 +1,4 @@
-module github.com/antick/ok-cli
+module github.com/antick/ok
 
 go 1.22.4
 

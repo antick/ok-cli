@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/antick/ok-cli/docker"
+	"github.com/antick/ok/docker"
 
 	"github.com/spf13/cobra"
 )
