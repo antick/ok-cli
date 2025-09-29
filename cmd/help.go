@@ -21,13 +21,25 @@ func HandleHelp(c *cobra.Command, args []string) {
 	fmt.Println()
 
 	color.Yellow("Available Commands:")
-	// Collect and sort by name for stable output
 	cmds := root.Commands()
 	sort.Slice(cmds, func(i, j int) bool { return cmds[i].Name() < cmds[j].Name() })
+	// Use a map to track which commands we've already shown to avoid duplicates
+	shownCommands := make(map[string]bool)
 	for _, sc := range cmds {
-		if sc.Hidden {
+		// Skip auto-generated commands
+		if sc.Hidden || sc.Name() == "completion" {
 			continue
 		}
+		// Skip help command as it's special
+		if sc.Name() == "help" {
+			continue
+		}
+		// Skip if we've already shown this command
+		if _, ok := shownCommands[sc.Name()]; ok {
+			continue
+		}
+		// Mark this command as shown
+		shownCommands[sc.Name()] = true
 		// Print primary usage and short description
 		fmt.Printf("  %-24s %s\n", sc.UseLine(), sc.Short)
 	}

@@ -22,8 +22,10 @@ func main() {
 
     var rootCmd = &cobra.Command{
         Use:   "ok",
-        Short: "OK CLI - a super CLI with super powers",
         Long:  `OK CLI is a versatile command-line tool that provides various utilities for file operations, building Go programs, and managing Docker containers.`,
+        CompletionOptions: cobra.CompletionOptions{
+            DisableDefaultCmd: true,
+        },
     }
 
     rootCmd.PersistentFlags().BoolVarP(&cfg.VerboseOutput, "verbose", "v", cfg.VerboseOutput, "verbose output")
@@ -35,6 +37,7 @@ func main() {
         createRemoveCommand(),
         createDockerCommand(),
         createKillCommand(),
+        createVersionCommand(),
     )
 
     // Use our custom help function for consistent, detailed help output
@@ -45,6 +48,15 @@ func main() {
     if err := rootCmd.Execute(); err != nil {
         color.Red("Error: %v", err)
         os.Exit(1)
+    }
+}
+
+func createVersionCommand() *cobra.Command {
+    return &cobra.Command{
+        Use:   "version",
+        Short: "Print the version number of OK CLI",
+        Long:  `All software has versions. This is OK CLI's version.`,
+        Run:   cmd.HandleVersion,
     }
 }
 

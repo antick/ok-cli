@@ -14,6 +14,14 @@ macOS options:
   echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
   ```
 
+- Local build:
+  ```bash
+  git clone https://github.com/antick/ok-cli.git
+  cd ok-cli
+  go build -o ok .
+  ./ok help
+  ```
+
 - From GitHub Releases (when available):
   1. Download the latest `ok` binary for macOS (arm64 or amd64) from the Releases page.
   2. Make it executable and place it on your PATH:
@@ -72,9 +80,12 @@ It creates ~/.ok/config.yaml file to set preferred defaults.
   go install github.com/antick/ok-cli@latest
   ```
   This fetches and installs the latest version.
-
 - If installed from GitHub Releases: re-download the latest binary and replace the existing `/usr/local/bin/ok`.
 
 ## License
 
 GNU General Public License v3.0
+
+## Version
+
+Current version: 0.1.0
