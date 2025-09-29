@@ -55,7 +55,7 @@ OK CLI is a versatile command-line tool that provides various utilities for file
 
 ### Option 1: Go Toolchain
 ```bash
-go install github.com/antick/ok-cli@latest
+go install github.com/antick/ok-cli@main
 
 Ensure your `$GOPATH/bin (usually $HOME/go/bin)` is on `PATH`:
 

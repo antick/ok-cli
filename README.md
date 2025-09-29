@@ -7,7 +7,7 @@ macOS options:
 
 - Go toolchain (requires Go 1.22+):
   ```bash
-  go install github.com/antick/ok-cli@latest
+  go install github.com/antick/ok-cli@main
   ```
   Ensure your `$GOPATH/bin` (usually `$HOME/go/bin`) is on `PATH`:
   ```bash
@@ -80,9 +80,9 @@ It creates ~/.ok/config.yaml file to set preferred defaults.
 
 - If installed via Go:
   ```bash
-  go install github.com/antick/ok-cli@latest
+  go install github.com/antick/ok-cli@main
   ```
-  This fetches and installs the latest version.
+  This fetches and installs the latest version from main branch.
 - If installed from GitHub Releases: re-download the latest binary and replace the existing `/usr/local/bin/ok`.
 
 ## License
