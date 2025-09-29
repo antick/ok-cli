@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const Version = "0.1.1"
+const Version = "0.1.0"
 
 // HandleVersion prints the current version of the CLI.
 func HandleVersion(cmd *cobra.Command, args []string) {

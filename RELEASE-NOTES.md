@@ -1,4 +1,4 @@
-# OK CLI v0.1.1 Release Notes
+# OK CLI v0.1.0 Release Notes
 
 ## Overview
 OK CLI is a versatile command-line tool that provides various utilities for file operations, building Go programs, and managing Docker containers. This release introduces several powerful commands to enhance your development workflow.

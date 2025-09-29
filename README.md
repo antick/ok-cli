@@ -1,4 +1,4 @@
-# ok - CLI (v0.1.1 - alpha)
+# ok - CLI (v0.1.0 - alpha)
 ok - a super CLI with super powers
 
 ## Installation
